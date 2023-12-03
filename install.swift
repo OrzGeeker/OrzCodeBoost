@@ -34,6 +34,8 @@ if let isDir = try snippetDirFileURL.resourceValues(forKeys: [.isDirectoryKey]).
             }
             
             try FileManager.default.copyItem(atPath: snippetSourceFilePath, toPath: snippetTargetFilePath)
+            
+            print("✓ \(snippetFile)")
         }
     }
 }
