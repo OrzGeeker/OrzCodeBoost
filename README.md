@@ -39,6 +39,10 @@ Collect Code Snippet and File Template to improve your speed of coding
 
 - [ ] Extension
 
+|Completion|Description|
+|:---:|:---:|
+|lazyvar|lazy initinizer for var|
+
 ## Automatic Template & Snippet Installation
 
 - Pod Install script
