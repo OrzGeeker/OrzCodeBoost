@@ -2,43 +2,49 @@
 
 import Foundation
 
+try syncSnippets()
 
-let snippetDirFileURL = URL(fileURLWithPath: "Snippets")
+func syncSnippets() throws {
+    
+    let snippetDirFileURL = URL(fileURLWithPath: "Snippets")
+    
+    let xcodeUserDataFileURL = URL(fileURLWithPath: NSHomeDirectory().appending("/Library/Developer/Xcode/UserData/CodeSnippets/"))
+    
+    print("Sync Snippets to directory: \(xcodeUserDataFileURL.path())")
+    
+    try syncDir(from: snippetDirFileURL, to: xcodeUserDataFileURL)
+}
 
-if let isDir = try snippetDirFileURL.resourceValues(forKeys: [.isDirectoryKey]).isDirectory, isDir == true {
-    
-    let snippets =  try FileManager.default.contentsOfDirectory(atPath: snippetDirFileURL.path())
-    
-    if !snippets.isEmpty {
+func syncDir(from sourceDirFileURL: URL, to destinationDirFileURL: URL) throws {
+ 
+    if let isDir = try sourceDirFileURL.resourceValues(forKeys: [.isDirectoryKey]).isDirectory, isDir == true {
         
-        let xcodeUserDataFilePath = NSHomeDirectory().appending("/Library/Developer/Xcode/UserData/CodeSnippets/")
+        let sourceDirFiles =  try FileManager.default.contentsOfDirectory(atPath: sourceDirFileURL.path())
         
-        let xcodeUserDataFileURL = URL(fileURLWithPath: xcodeUserDataFilePath)
-        
-        let isExist = FileManager.default.fileExists(atPath: xcodeUserDataFileURL.path(percentEncoded: true))
-        
-        if !isExist {
+        if !sourceDirFiles.isEmpty {
             
-            try FileManager.default.createDirectory(at: xcodeUserDataFileURL, withIntermediateDirectories: true)
-        }
-        
-        try snippets.forEach { snippetFile in
+            let isExist = FileManager.default.fileExists(atPath: destinationDirFileURL.path(percentEncoded: true))
             
-            let snippetSourceFilePath = snippetDirFileURL.appending(path: snippetFile).path
-            
-            let snippetTargetFilePath = xcodeUserDataFilePath.appending(snippetFile)
-            
-            if FileManager.default.fileExists(atPath: snippetTargetFilePath) {
+            if !isExist {
                 
-                try FileManager.default.removeItem(atPath: snippetTargetFilePath)
+                try FileManager.default.createDirectory(at: destinationDirFileURL, withIntermediateDirectories: true)
             }
             
-            try FileManager.default.copyItem(atPath: snippetSourceFilePath, toPath: snippetTargetFilePath)
-            
-            print("✓ \(snippetFile)")
+            try sourceDirFiles.forEach { sourceFile in
+                
+                let sourceFilePath = sourceDirFileURL.appending(path: sourceFile).path
+                
+                let destinationFilePath = destinationDirFileURL.path().appending(sourceFile)
+                
+                if FileManager.default.fileExists(atPath: destinationFilePath) {
+                    
+                    try FileManager.default.removeItem(atPath: destinationFilePath)
+                }
+                
+                try FileManager.default.copyItem(atPath: sourceFilePath, toPath: destinationFilePath)
+                
+                print("✓ \(sourceFile)")
+            }
         }
     }
 }
-
-
-
