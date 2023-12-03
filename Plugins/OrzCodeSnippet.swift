@@ -11,7 +11,7 @@ struct OrzCodeSnippet: CommandPlugin {
 #if canImport(XcodeProjectPlugin)
 import XcodeProjectPlugin
 
-extension MyCommandPlugin: XcodeCommandPlugin {
+extension OrzCodeSnippet: XcodeCommandPlugin {
     // Entry point for command plugins applied to Xcode projects.
     func performCommand(context: XcodePluginContext, arguments: [String]) throws {
         print("Hello, World!")
