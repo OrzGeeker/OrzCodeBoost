@@ -8,6 +8,8 @@ try syncSnippets()
 
 try syncFileTemplates()
 
+try closeXcode()
+
 try openTestWorkspace()
 
 // MARK: 工具函数
@@ -74,8 +76,6 @@ func syncDir(from sourceDirFileURL: URL, to destinationDirFileURL: URL) throws {
 }
 
 func openTestWorkspace() throws {
-
-    try closeXcode()
 
     try runShellCommand(executableURL: URL(filePath: "/usr/bin/xed"), arguments: ["TestProject"])
 
