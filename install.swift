@@ -2,9 +2,15 @@
 
 import Foundation
 
+// MARK: 脚本执行逻辑
+
 try syncSnippets()
 
 try syncFileTemplates()
+
+try openTestWorkspace()
+
+// MARK: 工具函数
 
 func syncFileTemplates() throws {
     
@@ -65,4 +71,35 @@ func syncDir(from sourceDirFileURL: URL, to destinationDirFileURL: URL) throws {
             }
         }
     }
+}
+
+func openTestWorkspace() throws {
+
+    try closeXcode()
+
+    try runShellCommand(executableURL: URL(filePath: "/usr/bin/xed"), arguments: ["TestProject"])
+
+    print("Open Test Workspace")
+    
+}
+
+func closeXcode() throws {
+
+    try runShellCommand(executableURL: URL(filePath: "/usr/bin/pkill"), arguments: ["Xcode$"])
+
+    print("Closed Xcode!")
+}
+
+func runShellCommand(executableURL: URL, arguments: [String]?) throws {
+
+    let task = Process()
+
+    task.executableURL = executableURL
+
+    task.arguments = arguments
+
+    try task.run()
+
+    task.waitUntilExit()
+
 }
