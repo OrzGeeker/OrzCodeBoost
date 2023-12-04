@@ -4,19 +4,19 @@ import Foundation
 
 // MARK: 脚本执行逻辑
 
-try syncSnippets()
+// try syncSnippets()
 
 try syncFileTemplates()
 
-try closeXcode()
+// try closeXcode()
 
-try openTestWorkspace()
+// try openTestWorkspace()
 
 // MARK: 工具函数
 
 func syncFileTemplates() throws {
     
-    let fileTemplateDirName = "File Templates"
+    let fileTemplateDirName = "File Templates/Source"
     
     let fileTemplateDirFileURL = URL(fileURLWithPath: fileTemplateDirName)
     
@@ -61,7 +61,7 @@ func syncDir(from sourceDirFileURL: URL, to destinationDirFileURL: URL) throws {
                 let sourceFilePath = sourceDirFileURL.appending(path: sourceFile).path(percentEncoded: false)
                 
                 let destinationFilePath = destinationDirFileURL.path(percentEncoded: false).appending(sourceFile)
-                
+
                 if FileManager.default.fileExists(atPath: destinationFilePath) {
                     
                     try FileManager.default.removeItem(atPath: destinationFilePath)
