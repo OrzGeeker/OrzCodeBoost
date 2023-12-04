@@ -4,13 +4,13 @@ import Foundation
 
 // MARK: 脚本执行逻辑
 
-// try syncSnippets()
+try syncSnippets()
 
 try syncFileTemplates()
 
-// try closeXcode()
+try closeXcode()
 
-// try openTestWorkspace()
+try openTestWorkspace()
 
 // MARK: 工具函数
 
