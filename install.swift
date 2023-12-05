@@ -10,6 +10,8 @@ try syncFileTemplates()
 
 try closeXcode()
 
+sleep(2)
+
 try openTestWorkspace()
 
 // MARK: 工具函数
@@ -79,7 +81,7 @@ func openTestWorkspace() throws {
 
     try runShellCommand(executableURL: URL(filePath: "/usr/bin/xed"), arguments: ["TestProject"])
 
-    print("Open Test Workspace")
+    print("Opening Test Workspace")
     
 }
 
